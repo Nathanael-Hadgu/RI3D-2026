@@ -95,7 +95,5 @@ public class Constants {
 
         public static final int velocity = 1;
         public static final int acceleration = 2;
-        public static final double kRotationSpeed = 0.02;
-        public static final double kWheelSpeed = 0.02;
     }
 }
