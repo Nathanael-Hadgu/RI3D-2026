@@ -13,7 +13,8 @@ public class Constants {
 
     public static final class IntakeConstants {
         // Port Constants
-        public static final int kIntakeRotationPort = 0;
+        public static final int kIntakeRotationLeaderPort = 0;
+        public static final int kIntakeRotationFollowerPort = 0;
         public static final int kIntakeWheelPort = 0;
         public static final int kIntakeRotationEncoderChannelA = 0;
         public static final int kIntakeRotationEncoderChannelB = 0;
