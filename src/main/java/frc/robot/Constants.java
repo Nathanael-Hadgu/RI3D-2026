@@ -1,5 +1,9 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Amps;
+
+import edu.wpi.first.units.measure.Current;
+
 public class Constants {
     public static final int kDriverControllerPort = 0;
 
@@ -20,9 +24,9 @@ public class Constants {
         public static final int kIntakeRotationEncoderChannelB = 0;
 
         // Motor Configuration Constants
-        public static final int kSupplyCurrentLimit = 60;
-        public static final int kIntakeRotationStatorCurrentLimit = 120;
-        public static final int kIntakeRotationWheelStatorCurrentLimit = 120;
+        public static final Current kSupplyCurrentLimit = Amps.of(60);
+        public static final Current kIntakeRotationStatorCurrentLimit = Amps.of(120);
+        public static final Current kIntakeRotationWheelStatorCurrentLimit = Amps.of(120);
 
         // Encoder Positions
         public static final int kEncoderHomePosition = 0;
