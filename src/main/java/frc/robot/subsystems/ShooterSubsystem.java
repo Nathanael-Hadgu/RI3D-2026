@@ -5,6 +5,7 @@ import static frc.robot.Constants.ShooterConstants.kP;
 import static frc.robot.Constants.ShooterConstants.kI;
 import static frc.robot.Constants.ShooterConstants.kD;
 import static frc.robot.Constants.ShooterConstants.kTolerance;
+import static frc.robot.Constants.ShooterConstants.kV;
 import static frc.robot.Constants.ShooterConstants.kShooterMotorStatorCurrentLimit;
 import static frc.robot.Constants.ShooterConstants.kShooterMotorSupplyCurrentLimit;
 
@@ -29,7 +30,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public ShooterSubsystem() {
         shooterMotor = new TalonFX(kShooterMotorPort);       
-        shooterController = new VelocityVoltage(0.0);
 
         // Setup leader w/ current limits, non inverted, coast mode, pid controller.
         shooterMotorConfig = new TalonFXConfiguration()
@@ -50,10 +50,12 @@ public class ShooterSubsystem extends SubsystemBase {
                     .withKP(kP)
                     .withKI(kI)
                     .withKD(kD)
+                    .withKV(kV)
             );
             
         // apply configs
         shooterMotor.getConfigurator().apply(shooterMotorConfig);
+        shooterController = new VelocityVoltage(0.0).withSlot(0);
 
         // enable motor watchdog
         shooterMotor.setSafetyEnabled(false);
