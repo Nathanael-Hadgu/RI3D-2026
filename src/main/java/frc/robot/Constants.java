@@ -25,7 +25,7 @@ public class Constants {
         public static final double kP = 0; // Proportional Gain
         public static final double kI = 0; // Integral Gain
         public static final double kD = 0; // Derivative Gain
-        public static final double kV = 0; // Velocity Feedforward Gain
+        public static final double kV = 0.12; // Velocity Feedforward Gain
 
         // Tolerance
         public static final AngularVelocity kTolerance = RotationsPerSecond.of(5);
