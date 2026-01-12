@@ -13,23 +13,29 @@ public class MoveIntakeCommand extends Command {
         m_speed = speed;
         addRequirements(subsystem);
     }
-    
+
     @Override
     public void initialize() {}
-    
+
     @Override
     public void execute() {
-        double currentLeftPos = m_intakeSubsystem.getLeftIntakePosition();
-        double currentRightPos = m_intakeSubsystem.getRightIntakePosition();
+        double pos = m_intakeSubsystem.getLeftIntakePosition();
 
-        if ((m_speed > 0 && (currentLeftPos >= Constants.IntakeConstants.kIntakeRotationMaxPosition || currentRightPos >= Constants.IntakeConstants.kIntakeRotationMaxPosition)) ||
-            (m_speed < 0 && (currentLeftPos <= Constants.IntakeConstants.kIntakeRotationMinPosition || currentRightPos <= Constants.IntakeConstants.kIntakeRotationMinPosition))) {
+        if (m_speed > 0.0 &&
+            pos >= Constants.IntakeConstants.kIntakeRotationMaxPosition) {
             m_intakeSubsystem.setIntakeRotation(0.0);
             return;
         }
-        
+
+        if (m_speed < 0.0 &&
+            pos <= Constants.IntakeConstants.kIntakeRotationMinPosition) {
+            m_intakeSubsystem.setIntakeRotation(0.0);
+            return;
+        }
+
         m_intakeSubsystem.setIntakeRotation(m_speed);
     }
+
     
     @Override
     public void end(boolean interrupted) {
