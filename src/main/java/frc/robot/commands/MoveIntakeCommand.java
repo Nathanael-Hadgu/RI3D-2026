@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
-import frc.robot.Constants;
+import static frc.robot.Constants.IntakeConstants.kIntakeRotationMaxPosition;
+import static frc.robot.Constants.IntakeConstants.kIntakeRotationMinPosition;
+
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -16,7 +18,8 @@ public class MoveIntakeCommand extends Command {
 
     @Override
     public void initialize() {}
-
+    
+    // Move intake rotation while respecting position limits
     @Override
     public void execute() {
         double pos = m_intakeSubsystem.getLeftIntakePosition();
@@ -27,8 +30,8 @@ public class MoveIntakeCommand extends Command {
             return;
         }
 
-        if (m_speed < 0.0 &&
-            pos <= Constants.IntakeConstants.kIntakeRotationMinPosition) {
+        if ((m_speed > 0 && (currentLeftPos >= kIntakeRotationMaxPosition || currentRightPos >= kIntakeRotationMaxPosition)) ||
+            (m_speed < 0 && (currentLeftPos <= kIntakeRotationMinPosition || currentRightPos <= kIntakeRotationMinPosition))) {
             m_intakeSubsystem.setIntakeRotation(0.0);
             return;
         }
@@ -37,11 +40,13 @@ public class MoveIntakeCommand extends Command {
     }
 
     
+    // Stop intake rotation on command end
     @Override
     public void end(boolean interrupted) {
         m_intakeSubsystem.setIntakeRotation(0.0);
     }
     
+    // Never finishes on its own
     @Override
     public boolean isFinished() {
         return false;
