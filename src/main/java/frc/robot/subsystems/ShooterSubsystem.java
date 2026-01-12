@@ -5,6 +5,7 @@ import static frc.robot.Constants.ShooterConstants.kP;
 import static frc.robot.Constants.ShooterConstants.kI;
 import static frc.robot.Constants.ShooterConstants.kD;
 import static frc.robot.Constants.ShooterConstants.kTolerance;
+import static frc.robot.Constants.ShooterConstants.kV;
 import static frc.robot.Constants.ShooterConstants.kShooterMotorStatorCurrentLimit;
 import static frc.robot.Constants.ShooterConstants.kShooterMotorSupplyCurrentLimit;
 
@@ -14,7 +15,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -24,12 +25,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ShooterSubsystem extends SubsystemBase {
     private TalonFX shooterMotor;
     private TalonFXConfiguration shooterMotorConfig;
-    private VelocityTorqueCurrentFOC shooterController;
+    private VelocityVoltage shooterController;
     private double targetRps = 0.0;
 
     public ShooterSubsystem() {
         shooterMotor = new TalonFX(kShooterMotorPort);       
-        shooterController = new VelocityTorqueCurrentFOC(0.0);
 
         // Setup leader w/ current limits, non inverted, coast mode, pid controller.
         shooterMotorConfig = new TalonFXConfiguration()
@@ -50,13 +50,15 @@ public class ShooterSubsystem extends SubsystemBase {
                     .withKP(kP)
                     .withKI(kI)
                     .withKD(kD)
+                    .withKV(kV)
             );
             
         // apply configs
         shooterMotor.getConfigurator().apply(shooterMotorConfig);
+        shooterController = new VelocityVoltage(0.0).withSlot(0);
 
         // enable motor watchdog
-        shooterMotor.setSafetyEnabled(true);
+        shooterMotor.setSafetyEnabled(false);
     }
 
     public void SetVelocity(double rotationsPerSecond) {
