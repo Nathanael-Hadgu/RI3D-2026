@@ -15,6 +15,10 @@ public class Constants {
         public static final int kRightLeaderPort = 4;
         public static final int kRightFollowerPort = 5;
         public static final double kStickDeadband = 0.1;
+
+        // Scaling factors for teleop control
+        public static final double kDriveScaling = 0.5;
+        public static final double kRotationScaling = 0.5;
     }
     
     public static final class ShooterConstants {
@@ -27,7 +31,7 @@ public class Constants {
         public static final double kD = 0; // Derivative Gain
         public static final double kV = 0.12; // Velocity Feedforward Gain
 
-        // Tolerance
+        // Toleranced
         public static final AngularVelocity kTolerance = RotationsPerSecond.of(5);
 
         // Current limits
@@ -35,7 +39,7 @@ public class Constants {
         public static final Current kShooterMotorSupplyCurrentLimit = Amps.of(60);
 
         // Shoot Speeds
-        public static final double kShootCloseSpeed = 5;
+        public static final double kShootCloseSpeed = 50;
     }
 
     public static final class FeederConstants{
@@ -43,7 +47,7 @@ public class Constants {
         public static final int kFeederPort = 9;
         
         // Speed Constant
-        public static final double kFeederSpeed = 0.1;
+        public static final double kFeederSpeed = 1;
 
         // Current limits
         public static final Current kFeederMotorStatorCurrentLimit = Amps.of(120);
@@ -67,24 +71,18 @@ public class Constants {
 
     public static final class IntakeConstants {
         // Port Constants
-        public static final int kIntakeRotationLeaderPort = 6;
-        public static final int kIntakeRotationFollowerPort = 10;
+        public static final int kIntakeRotationRightPort = 6;
+        public static final int kIntakeRotationLeftPort = 10;
         public static final int kIntakeWheelPort = 7;
-        // public static final int kIntakeRotationEncoderChannelA = 0;
-        // public static final int kIntakeRotationEncoderChannelB = 0;
 
         // Motor Configuration Constants
         public static final Current kSupplyCurrentLimit = Amps.of(60);
         public static final Current kIntakeRotationStatorCurrentLimit = Amps.of(120);
         public static final Current kIntakeRotationWheelStatorCurrentLimit = Amps.of(120);
 
-        // Encoder Positions
-        public static final int kEncoderHomePosition = 0;
-        public static final int kEncoderOutPosition = 0;
-
         // Speed Constants
-        public static final double kRotationSpeed = 0.02;
-        public static final double kWheelSpeed = 0.02;
+        public static final double kRotationSpeed = 0.05;
+        public static final double kWheelSpeed = 0.8;
 
         public static final double kS = 0.25; // Add 0.25 V output to overcome static friction
         public static final double kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
@@ -94,5 +92,9 @@ public class Constants {
         public static final double kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
         public static final int velocity = 1;
         public static final int acceleration = 2;
+
+        // Intake Rotation Limits
+        public static final double kIntakeRotationMaxPosition = 5.25;
+        public static final double kIntakeRotationMinPosition = 0.0;
     }
 }

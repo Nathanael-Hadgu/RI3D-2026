@@ -1,8 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
     private final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
@@ -20,15 +20,17 @@ public class RobotContainer {
 
     private void configureBindings() {
         m_drivetrain.setDefaultCommand(
-          new ArcadeDriveCommand(m_drivetrain, -m_driverController.getLeftY(), -m_driverController.getRightX())
-        );
+            m_drivetrain.driveArcade(
+                () -> -m_driverController.getLeftY()  * Constants.DrivetrainConstants.kDriveScaling,
+                () -> -m_driverController.getRightX() * Constants.DrivetrainConstants.kRotationScaling)
+            );
 
-      m_driverController.rightTrigger().whileTrue(new ShootCommand(m_shooter, m_feeder));
-      // m_driverController.rightBumper().onTrue(new IntakeInCommand(m_intake));
-      // m_driverController.leftBumper().onTrue(new IntakeOutCommand(m_intake));
-      m_driverController.leftTrigger().whileTrue(new IntakeFeedCommand(m_intake, false));
-      // m_driverController.povUp().whileTrue(new ClimbUp(m_climb));
-      // m_driverController.povDown().whileTrue(new ClimbDown(m_climb));
-      m_driverController.a().whileTrue(new IntakeFeedCommand(m_intake, true));
-    }
-}
+        m_driverController.rightTrigger().whileTrue(new ShootCommand(m_shooter, m_feeder));
+        m_driverController.rightBumper().whileTrue(new MoveIntakeCommand(m_intake, Constants.IntakeConstants.kRotationSpeed));
+        m_driverController.leftBumper().whileTrue(new MoveIntakeCommand(m_intake, -Constants.IntakeConstants.kRotationSpeed));
+        m_driverController.leftTrigger().whileTrue(new IntakeFeedCommand(m_intake, false));
+        // m_driverController.povUp().whileTrue(new ClimbUp(m_climb));
+        // m_driverController.povDown().whileTrue(new ClimbDown(m_climb));
+        m_driverController.a().whileTrue(new IntakeFeedCommand(m_intake, true));
+        }
+}   
